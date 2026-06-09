@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeTester</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <!-- CSS Logo -->
+      <div class="logo">
+        <div class="logo-mark">
+          <div class="lm-bracket lm-l">&lt;</div>
+          <div class="lm-slash">/</div>
+          <div class="lm-bracket lm-r">&gt;</div>
+        </div>
+        <span class="logo-text">CodeTester</span>
+      </div>
+    </div>
+    <div class="topbar-center">
+      <div class="tab-bar" id="tabBar">
+        <button class="tab active" data-tab="html">
+          <span class="tab-dot html-dot"></span>HTML
+        </button>
+        <button class="tab" data-tab="css">
+          <span class="tab-dot css-dot"></span>CSS
+        </button>
+        <button class="tab" data-tab="js">
+          <span class="tab-dot js-dot"></span>JS
+        </button>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-clear" id="btnClear" title="Clear current tab">Clear</button>
+      <button class="btn-reset" id="btnReset" title="Reset to template">Reset</button>
+      <button class="btn-run" id="btnRun">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Run
+      </button>
+    </div>
+  </header>
+
+  <!-- EDITOR ZONE -->
+  <div class="editor-zone" id="editorZone">
+    <div class="editor-wrap" id="editorWrap">
+      <div class="editor-inner">
+        <div class="line-nums" id="lineNums"></div>
+        <textarea class="code-area" id="codeArea" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAG HANDLE -->
+  <div class="drag-handle" id="dragHandle">
+    <div class="handle-bar"></div>
+  </div>
+
+  <!-- PREVIEW ZONE -->
+  <div class="preview-zone" id="previewZone">
+    <div class="preview-topbar">
+      <div class="preview-label">
+        <div class="preview-status" id="previewStatus"></div>
+        Preview
+      </div>
+      <div class="preview-actions">
+        <button class="preview-btn" id="btnFullscreen" title="Fullscreen preview">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+        <button class="preview-btn" id="btnRefresh" title="Refresh preview">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="iframe-wrap" id="iframeWrap">
+      <div class="preview-placeholder" id="previewPlaceholder">
+        <div class="placeholder-icon">▶</div>
+        <p>Tulis kode dan klik <strong>Run</strong> untuk melihat preview</p>
+      </div>
+      <iframe id="previewFrame" sandbox="allow-scripts allow-modals" title="Preview"></iframe>
+    </div>
+  </div>
+
+  <!-- CONSOLE -->
+  <div class="console-zone" id="consoleZone">
+    <div class="console-topbar">
+      <div class="console-label">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        Console
+        <span class="console-count" id="consoleCount"></span>
+      </div>
+      <button class="console-clear-btn" id="consoleClear">Clear</button>
+    </div>
+    <div class="console-output" id="consoleOutput">
+      <div class="console-welcome">// Console output akan muncul di sini</div>
+    </div>
+  </div>
+
+  <!-- LOADING OVERLAY -->
+  <div class="run-overlay" id="runOverlay">
+    <div class="run-loader">
+      <div class="loader-ring"></div>
+      <span id="runLabel">Running...</span>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
