@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeTester V2 — Editor</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body class="editor-page">
+
+  <!-- ambient -->
+  <div class="ambient">
+    <div class="amb-orb a1"></div>
+    <div class="amb-orb a2"></div>
+  </div>
+
+  <!-- TOPBAR -->
+  <header class="editor-topbar glass-topbar">
+    <div class="etb-left">
+      <a href="index.html" class="etb-logo" title="Back to home">
+        <img src="images/CodeTester.png" alt="CodeTester" class="etb-logo-img" onerror="this.style.display='none'"/>
+        <span class="etb-logo-text">CodeTester</span>
+        <span class="etb-version">V2</span>
+      </a>
+    </div>
+
+    <div class="etb-center">
+      <div class="file-tabs" id="fileTabs">
+        <!-- tabs rendered by app.js -->
+      </div>
+      <button class="add-file-btn" id="addFileBtn" title="Add file">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+
+    <div class="etb-right">
+      <span class="shortcut-hint">Ctrl+Enter</span>
+      <button class="btn-run-editor" id="btnRun">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Run
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <div class="editor-layout" id="editorLayout">
+
+    <!-- SIDEBAR: file tree + file content list -->
+    <aside class="editor-sidebar glass-sidebar" id="editorSidebar">
+      <div class="sidebar-section-label">FILES</div>
+      <div class="sidebar-files" id="sidebarFiles">
+        <!-- file list injected by app.js -->
+      </div>
+    </aside>
+
+    <!-- EDITOR PANE -->
+    <div class="editor-pane" id="editorPane">
+      <div class="editor-chrome">
+        <div class="editor-chrome-inner">
+          <div class="line-numbers" id="lineNumbers"></div>
+          <textarea
+            class="code-textarea"
+            id="codeTextarea"
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            placeholder="// Start typing..."
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- DRAG DIVIDER -->
+    <div class="h-divider" id="hDivider">
+      <div class="divider-pip"></div>
+    </div>
+
+    <!-- PREVIEW + CONSOLE PANE -->
+    <div class="output-pane" id="outputPane">
+
+      <!-- PREVIEW -->
+      <div class="preview-pane" id="previewPane">
+        <div class="pane-header">
+          <div class="pane-label">
+            <div class="status-dot" id="statusDot"></div>
+            Preview
+          </div>
+          <div class="pane-actions">
+            <button class="pane-btn" id="btnRefresh" title="Refresh">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            </button>
+            <button class="pane-btn" id="btnFullscreen" title="Fullscreen">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="preview-body" id="previewBody">
+          <div class="preview-empty" id="previewEmpty">
+            <div class="pe-icon">▶</div>
+            <p>Press <kbd>Run</kbd> to preview</p>
+          </div>
+          <iframe
+            id="previewFrame"
+            sandbox="allow-scripts allow-modals allow-forms"
+            title="Preview"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- CONSOLE/PANE DIVIDER -->
+      <div class="v-divider" id="vDivider">
+        <div class="divider-pip"></div>
+      </div>
+
+      <!-- CONSOLE -->
+      <div class="console-pane" id="consolePane">
+        <div class="pane-header">
+          <div class="pane-label">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            Console
+            <span class="log-badge" id="logBadge"></span>
+          </div>
+          <button class="pane-btn" id="btnClearConsole">Clear</button>
+        </div>
+        <div class="console-body" id="consoleBody">
+          <div class="console-placeholder">// output appears here</div>
+        </div>
+      </div>
+
+    </div><!-- /output-pane -->
+  </div><!-- /editor-layout -->
+
+  <!-- ADD FILE MODAL -->
+  <div class="modal-overlay" id="addFileModal">
+    <div class="modal glass-card">
+      <div class="modal-header">
+        <span class="modal-title">Add New File</span>
+        <button class="modal-close" id="closeModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="modal-label">Filename</label>
+        <input class="modal-input" id="newFileName" placeholder="e.g. data.json" autocomplete="off"/>
+        <div class="file-type-grid" id="fileTypeGrid">
+          <div class="ft-chip active" data-ext="html">HTML</div>
+          <div class="ft-chip" data-ext="css">CSS</div>
+          <div class="ft-chip" data-ext="js">JS</div>
+          <div class="ft-chip" data-ext="json">JSON</div>
+          <div class="ft-chip" data-ext="py">Python</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost-sm" id="cancelModal">Cancel</button>
+        <button class="btn-primary-sm" id="confirmAddFile">Create File</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADING FLASH -->
+  <div class="run-flash" id="runFlash">
+    <div class="flash-bar" id="flashBar"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
