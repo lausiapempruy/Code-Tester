@@ -1,0 +1,21 @@
+{
+  "app": {
+    "name": "CodeTester",
+    "version": "2.0",
+    "tagline": "Write. Run. See instantly.",
+    "description": "A lightweight, no-login code playground for HTML, CSS, JavaScript, Python preview, and JSON.",
+    "logo": "images/CodeTester.png",
+    "home": "home.html",
+    "github": "https://github.com"
+  },
+  "features": [
+    { "icon": "⚡", "label": "Instant Run",       "desc": "Zero build step. Hit Run and see results immediately." },
+    { "icon": "📁", "label": "Multi-file",         "desc": "HTML, CSS, JS, JSON, and Python preview in one session." },
+    { "icon": "🪟", "label": "Live Preview",       "desc": "Side-by-side editor and preview, resizable to your flow." },
+    { "icon": "📟", "label": "Console Panel",      "desc": "Capture logs, warnings, and errors right below the preview." },
+    { "icon": "🔒", "label": "No account needed",  "desc": "Lite by design. No login, no cloud save, just code." },
+    { "icon": "🎨", "label": "Glass UI",            "desc": "Crafted for focus — blur, depth, and calm dark aesthetics." }
+  ],
+  "supported_files": ["html", "css", "js", "json", "py"],
+  "run_delay_ms": 400
+}
