@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VeaCode 2.0 — Dokumentasi</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { min-height:100vh; }
+    .docs-layout {
+      position:relative;z-index:1;
+      max-width:1060px;margin:0 auto;
+      padding:calc(var(--nav-h)+36px) 24px 80px;
+      display:grid;
+      grid-template-columns:220px 1fr;
+      gap:40px;
+      align-items:start;
+    }
+
+    /* SIDEBAR */
+    .doc-nav {
+      position:sticky;top:calc(var(--nav-h)+24px);
+      display:flex;flex-direction:column;gap:2px;
+    }
+    .doc-nav-label {
+      font-family:var(--fm);font-size:0.6rem;font-weight:600;
+      letter-spacing:0.12em;text-transform:uppercase;
+      color:var(--w4);padding:8px 10px 4px;
+    }
+    .doc-nav-link {
+      display:flex;align-items:center;gap:8px;
+      padding:7px 10px;border-radius:var(--r);
+      font-size:0.8rem;color:var(--w2);text-decoration:none;
+      transition:all 0.15s;cursor:pointer;
+      background:none;border:none;font-family:var(--f);text-align:left;width:100%;
+    }
+    .doc-nav-link:hover { background:var(--s2);color:var(--w1); }
+    .doc-nav-link.cur   { background:var(--s2);color:var(--w1); }
+    .doc-nav-link .dnl-dot { width:6px;height:6px;border-radius:50%;flex-shrink:0; }
+
+    /* CONTENT */
+    .doc-content { display:flex;flex-direction:column;gap:48px; }
+
+    .doc-section { display:flex;flex-direction:column;gap:20px; }
+    .doc-section-title {
+      font-size:1.5rem;font-weight:700;letter-spacing:-0.025em;color:var(--w1);
+      padding-bottom:12px;border-bottom:1px solid var(--e1);
+    }
+
+    /* QA pairs */
+    .qa-block { display:flex;flex-direction:column;gap:10px; }
+    .qa-item {
+      border-radius:var(--r2);overflow:hidden;
+      border:1px solid var(--e1);
+      transition:border-color 0.18s;
+    }
+    .qa-item:hover { border-color:var(--e2); }
+    .qa-q {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 16px;cursor:pointer;
+      background:var(--s1);transition:background 0.15s;
+      gap:12px;
+    }
+    .qa-q:hover { background:var(--s2); }
+    .qa-q-text { font-size:0.86rem;font-weight:600;color:var(--w1);flex:1; }
+    .qa-q-ico  { color:var(--w3);font-size:0.8rem;flex-shrink:0;transition:transform 0.22s; }
+    .qa-item.open .qa-q-ico { transform:rotate(180deg); }
+    .qa-a {
+      max-height:0;overflow:hidden;
+      transition:max-height 0.3s var(--ease),padding 0.2s;
+      padding:0 16px;font-size:0.82rem;color:var(--w2);line-height:1.75;
+    }
+    .qa-item.open .qa-a { max-height:600px;padding:12px 16px 16px; }
+    .qa-a code {
+      font-family:var(--fm);font-size:0.78rem;
+      background:var(--s3);border:1px solid var(--e2);border-radius:4px;
+      padding:1px 6px;color:var(--blue2);
+    }
+    .qa-a pre {
+      font-family:var(--fm);font-size:0.74rem;
+      background:var(--s2);border:1px solid var(--e2);border-radius:var(--r);
+      padding:12px 14px;margin:8px 0;
+      color:var(--w2);line-height:1.7;overflow-x:auto;
+    }
+    .qa-a ul,
+    .qa-a ol { padding-left:18px; }
+    .qa-a li { margin-bottom:5px; }
+    .qa-a strong { color:var(--w1); }
+    .qa-a a { color:var(--blue2);text-decoration:none; }
+    .qa-a a:hover { text-decoration:underline; }
+
+    /* CHANGELOG */
+    .cl-list { display:flex;flex-direction:column;gap:10px; }
+    .cl-entry { padding:16px 18px;border-radius:var(--r2); }
+    .cl-header { display:flex;align-items:center;gap:10px;margin-bottom:8px; }
+    .cl-ver {
+      font-family:var(--fm);font-size:0.8rem;font-weight:600;
+      color:var(--blue2);
+    }
+    .cl-date { font-family:var(--fm);font-size:0.7rem;color:var(--w3); }
+    .cl-badge {
+      font-size:0.58rem;font-weight:700;padding:2px 7px;border-radius:100px;
+      letter-spacing:0.06em;
+    }
+    .cl-badge.latest { background:var(--orange);color:#fff; }
+    .cl-badge.stable { background:var(--s3);color:var(--w2);border:1px solid var(--e2); }
+    .cl-changes { display:flex;flex-direction:column;gap:4px; }
+    .cl-change { font-size:0.79rem;color:var(--w2);display:flex;align-items:flex-start;gap:8px;line-height:1.55; }
+    .cl-change::before { content:'—';color:var(--w4);flex-shrink:0;margin-top:1px; }
+
+    /* KEYBOARD SHORTCUTS TABLE */
+    .kb-table { width:100%;border-collapse:collapse; }
+    .kb-table th {
+      font-family:var(--fm);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;
+      color:var(--w3);padding:8px 12px;text-align:left;
+      border-bottom:1px solid var(--e2);
+    }
+    .kb-table td {
+      padding:9px 12px;font-size:0.8rem;color:var(--w2);
+      border-bottom:1px solid var(--e1);
+    }
+    .kb-table tr:last-child td { border-bottom:none; }
+    .kb-key {
+      display:inline-flex;align-items:center;
+      background:var(--s3);border:1px solid var(--e2);border-radius:4px;
+      padding:2px 7px;font-family:var(--fm);font-size:0.7rem;color:var(--w1);
+      box-shadow:0 2px 0 rgba(0,0,0,0.3);
+    }
+
+    @media(max-width:760px) {
+      .docs-layout { grid-template-columns:1fr;gap:24px; }
+      .doc-nav { position:static;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:4px; }
+      .doc-nav-label { display:none; }
+    }
+  </style>
+</head>
+<body>
+<div class="amb"><div class="amb-orb a1"></div><div class="amb-orb a2"></div><div class="amb-grid"></div></div>
+
+<nav class="v-nav">
+  <a href="index.html" class="v-nav-brand">
+    <img src="images/VeaCode.png" alt="" onerror="this.style.display='none'"/>
+    <span class="v-nav-brand-name">VeaCode</span>
+    <span class="v-nav-brand-badge">2.0</span>
+  </a>
+  <div class="v-nav-links">
+    <a href="dashboard.html" class="v-nav-link">Dashboard</a>
+    <a href="home.html"      class="v-nav-link">Editor</a>
+    <a href="docs.html"      class="v-nav-link cur">Docs</a>
+  </div>
+  <div class="v-nav-end">
+    <a href="login.html" class="btn btn-ghost btn-sm" id="navAuthBtn">Sign in</a>
+  </div>
+</nav>
+
+<div class="docs-layout">
+
+  <!-- NAV -->
+  <nav class="doc-nav">
+    <p class="doc-nav-label">Dokumentasi</p>
+    <a class="doc-nav-link cur" href="#mulai"><span class="dnl-dot" style="background:var(--orange)"></span>Mulai Sekarang</a>
+    <a class="doc-nav-link" href="#editor"><span class="dnl-dot" style="background:var(--c-js)"></span>Editor & File</a>
+    <a class="doc-nav-link" href="#akun"><span class="dnl-dot" style="background:var(--blue2)"></span>Akun & PIN</a>
+    <a class="doc-nav-link" href="#settings"><span class="dnl-dot" style="background:var(--c-css)"></span>Settings</a>
+    <a class="doc-nav-link" href="#data"><span class="dnl-dot" style="background:var(--green)"></span>Keamanan & Data</a>
+    <a class="doc-nav-link" href="#shortcuts"><span class="dnl-dot" style="background:var(--cyan)"></span>Keyboard Shortcuts</a>
+    <a class="doc-nav-link" href="#faq"><span class="dnl-dot" style="background:var(--c-html)"></span>FAQ</a>
+    <a class="doc-nav-link" href="#changelog"><span class="dnl-dot" style="background:var(--w3)"></span>Changelog</a>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="doc-content">
+
+    <!-- MULAI SEKARANG -->
+    <section class="doc-section" id="mulai">
+      <h2 class="doc-section-title">Mulai Sekarang</h2>
+      <div class="qa-block">
+        <div class="qa-item open">
+          <div class="qa-q"><span class="qa-q-text">Apa itu VeaCode 2.0?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">VeaCode 2.0 adalah code playground lokal-first — artinya semua data tersimpan di perangkatmu, tidak ada server backend. Kamu bisa menulis HTML, CSS, JavaScript, JSON, dan Python langsung di browser dan melihat hasilnya secara real-time. Tidak perlu install apapun.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Apakah harus punya akun untuk menggunakan editor?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Tidak. Kamu bisa langsung buka <a href="home.html">home.html</a> dan mulai coding tanpa akun. Akun hanya diperlukan jika kamu ingin menggunakan fitur dashboard, menyimpan preferensi, atau mengakses Code Projects di masa depan.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara buat akun?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">
+            Buka <a href="login.html?m=register">halaman daftar</a> dan ikuti 3 langkah:
+            <ol style="margin-top:8px">
+              <li>Isi profil — username (wajib), display name & avatar (opsional)</li>
+              <li>Buat PIN 10 digit — hafalkan, tidak bisa dipulihkan</li>
+              <li>Setujui Terms of Service</li>
+            </ol>
+            Sistem butuh 10–20 detik untuk menyiapkan akun ke localStorage.
+          </div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Apakah VeaCode 2.0 bekerja offline?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Ya, editor sepenuhnya berjalan offline setelah halaman dimuat. Font Google Fonts memerlukan koneksi untuk pertama kali, tapi editor itu sendiri tidak perlu internet untuk run preview.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDITOR & FILE -->
+    <section class="doc-section" id="editor">
+      <h2 class="doc-section-title">Editor & File</h2>
+      <div class="qa-block">
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Format file apa saja yang didukung?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">VeaCode 2.0 mendukung lima format: <code>.html</code>, <code>.css</code>, <code>.js</code>, <code>.json</code>, dan <code>.py</code>. Untuk Python, VeaCode menampilkan konten sebagai preview teks karena tidak ada runtime Python di browser.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara menambah file baru?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Klik tombol <strong>+</strong> di sebelah kanan tab editor. Isi nama file dan pilih tipe ekstensi, lalu klik <strong>Buat</strong>. File akan langsung muncul di tab dan sidebar.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara kerja Run preview?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">
+            Saat kamu klik <strong>Run</strong> (atau tekan <code>Ctrl+Enter</code>), VeaCode menggabungkan semua file CSS ke dalam <code>&lt;style&gt;</code> dan semua file JS ke dalam <code>&lt;script&gt;</code>, lalu menyuntikkannya ke dalam HTML utama. Hasilnya dirender di iframe preview di sebelah kanan.
+            <br/><br/>
+            Semua <code>console.log</code>, <code>console.warn</code>, dan <code>console.error</code> dari kode kamu akan tertangkap dan ditampilkan di panel Console di bawah preview.
+          </div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Apakah kode saya tersimpan otomatis?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">VeaCode 2.0 adalah testing playground — tidak ada fitur simpan kode permanen saat ini. Kode hanya ada di sesi browser yang sedang aktif. Code Projects (simpan permanen) akan hadir di update berikutnya.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara hapus file?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Hover ke nama file di sidebar kiri, lalu klik ikon <strong>✕</strong> yang muncul di kanan nama file. Minimal harus ada 1 file, jadi file terakhir tidak bisa dihapus.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara resize panel editor dan preview?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Drag pembatas vertikal antara editor dan output untuk mengubah lebar. Drag pembatas horizontal antara preview dan console untuk mengubah tinggi. Cukup klik-tahan lalu seret ke posisi yang diinginkan.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AKUN & PIN -->
+    <section class="doc-section" id="akun">
+      <h2 class="doc-section-title">Akun & PIN</h2>
+      <div class="qa-block">
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Mengapa akun tidak bisa dipakai di beberapa perangkat?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">VeaCode tidak menggunakan backend server. Akun disimpan sepenuhnya di localStorage browser pada perangkat yang digunakan saat mendaftar. Tidak ada sinkronisasi cloud, sehingga akun hanya bisa diakses dari perangkat dan browser yang sama.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Apa yang dimaksud dengan PIN 10 digit?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">PIN adalah satu-satunya kunci keamanan akun VeaCode kamu. Panjangnya 10 digit angka. PIN digunakan saat: login, ganti username, ganti PIN itu sendiri, dan verifikasi di Settings. Tidak ada mekanisme reset PIN jika kamu lupa.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Apa yang terjadi jika saya lupa PIN?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Karena tidak ada backend, PIN tidak bisa dipulihkan. Jika lupa PIN, satu-satunya opsi adalah menghapus data localStorage secara manual (lewat DevTools browser) dan membuat akun baru. <strong>Pastikan menghafalkan atau mencatat PIN di tempat yang aman.</strong></div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana PIN disimpan? Apakah aman?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">PIN di-hash menggunakan SHA-256 sebelum disimpan di localStorage. PIN asli tidak pernah tersimpan dalam bentuk plaintext. Namun karena ini berjalan di browser lokal, keamanan bergantung juga pada keamanan perangkat yang kamu gunakan.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bisakah saya mengganti username?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Bisa. Buka <a href="settings.html">Settings</a> → tab Account → klik ganti username. Kamu akan diminta mengisi username baru dan PIN saat ini sebagai verifikasi. Perubahan berlaku setelah konfirmasi.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="doc-section" id="settings">
+      <h2 class="doc-section-title">Settings</h2>
+      <div class="qa-block">
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Apa saja yang bisa diubah di Settings?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Settings VeaCode memiliki dua tab utama:
+            <ul style="margin-top:8px">
+              <li><strong>Account</strong> — Foto profil, display name, ganti username (perlu verifikasi PIN)</li>
+              <li><strong>Security &amp; Data</strong> — Ganti PIN, ekspor data ke JSON, impor data dari JSON, hapus akun</li>
+            </ul>
+          </div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara ganti display name?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Buka Settings → tab Account → edit kolom Display Name → klik Simpan. Tidak perlu verifikasi PIN untuk mengubah display name.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara ganti foto profil?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Di Settings → tab Account, klik area avatar untuk memilih gambar baru dari perangkat. Mendukung JPG dan PNG, maksimal 2MB. Gambar disimpan sebagai base64 di localStorage.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEAMANAN & DATA -->
+    <section class="doc-section" id="data">
+      <h2 class="doc-section-title">Keamanan & Data</h2>
+      <div class="qa-block">
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara ganti PIN?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">
+            Buka Settings → Security &amp; Data → klik tombol <strong>Ganti PIN</strong>. Prosesnya:
+            <ol style="margin-top:8px">
+              <li>Masukkan PIN baru (10 digit)</li>
+              <li>Masukkan PIN lama sebagai verifikasi</li>
+              <li>Ulangi PIN baru untuk konfirmasi</li>
+            </ol>
+            Sistem butuh sekitar 10 detik untuk memperbarui PIN. Setelah selesai, kamu akan diminta login ulang.
+          </div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Apa yang diekspor saat ekspor data?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">File ekspor berformat JSON dan berisi semua data akun: username, display name, avatar (base64), tanggal dibuat, aktivitas, serta data Code Projects (jika ada). PIN disimpan dalam bentuk hash. Proses ekspor membutuhkan 5–10 detik.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara impor data?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Buka Settings → Security &amp; Data → klik tombol <strong>Impor Data</strong>, pilih file JSON yang sebelumnya diekspor dari VeaCode. Proses impor membutuhkan 20–30 detik karena memvalidasi seluruh data. Data yang ada akan ditimpa.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Apakah data saya dikirim ke server manapun?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Tidak. VeaCode 2.0 tidak memiliki server backend sama sekali. Semua data — akun, PIN, aktivitas — tersimpan hanya di localStorage browser pada perangkat kamu. Tidak ada telemetri, tracking, atau pengiriman data ke luar.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEYBOARD SHORTCUTS -->
+    <section class="doc-section" id="shortcuts">
+      <h2 class="doc-section-title">Keyboard Shortcuts</h2>
+      <div class="glass" style="padding:0;border-radius:var(--r2);overflow:hidden">
+        <table class="kb-table">
+          <thead><tr><th>Shortcut</th><th>Aksi</th></tr></thead>
+          <tbody>
+            <tr><td><span class="kb-key">Ctrl</span> + <span class="kb-key">Enter</span></td><td>Run preview</td></tr>
+            <tr><td><span class="kb-key">Tab</span></td><td>Indentasi 2 spasi</td></tr>
+            <tr><td><span class="kb-key">Shift</span> + <span class="kb-key">Tab</span></td><td>Hapus indentasi</td></tr>
+            <tr><td><span class="kb-key">(</span> <span class="kb-key">[</span> <span class="kb-key">{</span> <span class="kb-key">"</span> <span class="kb-key">'</span></td><td>Auto-close bracket</td></tr>
+            <tr><td><span class="kb-key">Esc</span></td><td>Keluar dari fullscreen preview</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="doc-section" id="faq">
+      <h2 class="doc-section-title">FAQ</h2>
+      <div class="qa-block">
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Mengapa error JavaScript tidak muncul di preview?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Error JS tetap tertangkap — tapi di panel Console, bukan di preview. Lihat panel Console di bawah preview. Status dot preview akan berubah merah jika ada runtime error.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bisakah saya menggunakan library eksternal seperti jQuery atau React?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Bisa, selama kamu menggunakan CDN link di dalam HTML. Contoh: <pre>&lt;script src="https://cdn.jsdelivr.net/npm/jquery"&gt;&lt;/script&gt;</pre>Tambahkan tag <code>&lt;script&gt;</code> di dalam file HTML kamu sebelum run.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Kenapa Python tidak bisa dijalankan?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Browser tidak memiliki runtime Python bawaan. VeaCode menampilkan konten file <code>.py</code> sebagai preview teks biasa. Untuk menjalankan Python secara real, pertimbangkan menggunakan layanan seperti Replit atau Google Colab.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Apakah VeaCode 2.0 open source?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Ya. VeaCode 2.0 tersedia di GitHub. Kamu bebas melihat, memodifikasi, dan mendistribusikan ulang sesuai lisensi yang berlaku. Lihat README.md untuk detail lebih lanjut.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Browser apa yang direkomendasikan?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">VeaCode 2.0 bekerja paling baik di Chrome 100+, Firefox 100+, dan Edge 100+. Safari juga didukung. Hindari browser lama yang tidak mendukung <code>backdrop-filter</code> dan <code>CSS custom properties</code>.</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><span class="qa-q-text">Bagaimana cara melaporkan bug?</span><span class="qa-q-ico">▾</span></div>
+          <div class="qa-a">Buka issue di repositori GitHub VeaCode. Sertakan langkah reproduksi, browser yang digunakan, dan screenshot jika memungkinkan.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHANGELOG -->
+    <section class="doc-section" id="changelog">
+      <h2 class="doc-section-title">Changelog</h2>
+      <div class="cl-list">
+        <div class="cl-entry glass">
+          <div class="cl-header">
+            <span class="cl-ver">v2.0.0</span>
+            <span class="cl-date">11 Juni 2026</span>
+            <span class="cl-badge latest">Latest</span>
+          </div>
+          <div class="cl-changes">
+            <div class="cl-change">Full rebrand dari CodeTester ke VeaCode 2.0</div>
+            <div class="cl-change">Sistem akun lokal dengan PIN 10 digit dan hash SHA-256</div>
+            <div class="cl-change">Multi-file workspace — HTML, CSS, JS, JSON, Python</div>
+            <div class="cl-change">Dashboard dengan ringkasan akun dan aktivitas terbaru</div>
+            <div class="cl-change">Settings — ganti profil, PIN, ekspor/impor data JSON</div>
+            <div class="cl-change">Drag divider untuk resize editor, preview, dan console</div>
+            <div class="cl-change">Fullscreen preview mode (Esc untuk keluar)</div>
+            <div class="cl-change">Auto-close brackets dan Tab indent 2 spasi</div>
+            <div class="cl-change">Console relay — tangkap semua log dari iframe</div>
+            <div class="cl-change">Run flash bar animasi saat eksekusi</div>
+            <div class="cl-change">Desain Space Grotesk + glassmorphism penuh</div>
+          </div>
+        </div>
+        <div class="cl-entry glass">
+          <div class="cl-header">
+            <span class="cl-ver">v1.0.0 (CodeTester)</span>
+            <span class="cl-date">Sebelum Juni 2026</span>
+            <span class="cl-badge stable">Archived</span>
+          </div>
+          <div class="cl-changes">
+            <div class="cl-change">Versi awal CodeTester — editor HTML/CSS/JS dasar</div>
+            <div class="cl-change">Tab 3 file (HTML, CSS, JS) dengan preview iframe</div>
+            <div class="cl-change">Console panel dasar</div>
+            <div class="cl-change">Loading delay 1.4–2 detik</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div id="veaToasts" class="v-toasts"></div>
+<script src="app.js"></script>
+</body>
+</html>
