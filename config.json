@@ -1,21 +1,54 @@
 {
   "app": {
-    "name": "CodeTester",
-    "version": "2.0",
-    "tagline": "Write. Run. See instantly.",
-    "description": "A lightweight, no-login code playground for HTML, CSS, JavaScript, Python preview, and JSON.",
-    "logo": "images/CodeTester.png",
-    "home": "home.html",
-    "github": "https://github.com"
+    "name": "VeaCode 2.0",
+    "short": "VeaCode",
+    "version": "2.0.0",
+    "released": "2026-06-11",
+    "tagline": "The code playground that stays out of your way.",
+    "description": "VeaCode 2.0 is a local-first, no-backend code playground. Test HTML, CSS, JS, JSON, and Python in one tab. No account required to start.",
+    "logo": "images/VeaCode.png",
+    "author": "Andra",
+    "pages": {
+      "landing":   "index.html",
+      "login":     "login.html",
+      "dashboard": "dashboard.html",
+      "editor":    "home.html",
+      "docs":      "docs.html",
+      "tos":       "tos.html"
+    }
   },
   "features": [
-    { "icon": "⚡", "label": "Instant Run",       "desc": "Zero build step. Hit Run and see results immediately." },
-    { "icon": "📁", "label": "Multi-file",         "desc": "HTML, CSS, JS, JSON, and Python preview in one session." },
-    { "icon": "🪟", "label": "Live Preview",       "desc": "Side-by-side editor and preview, resizable to your flow." },
-    { "icon": "📟", "label": "Console Panel",      "desc": "Capture logs, warnings, and errors right below the preview." },
-    { "icon": "🔒", "label": "No account needed",  "desc": "Lite by design. No login, no cloud save, just code." },
-    { "icon": "🎨", "label": "Glass UI",            "desc": "Crafted for focus — blur, depth, and calm dark aesthetics." }
+    { "icon": "⚡", "title": "Run instantly",         "desc": "No compile step, no build tool. Write code, hit Run." },
+    { "icon": "📁", "title": "Multi-file workspace",  "desc": "HTML, CSS, JS, JSON, Python — managed in one sidebar." },
+    { "icon": "🔒", "title": "Local-first account",   "desc": "Your account lives only on this device. No server, no cloud." },
+    { "icon": "🪟", "title": "Resizable panels",      "desc": "Drag the dividers to fit your workflow. Editor, preview, console." },
+    { "icon": "📟", "title": "Inline console",         "desc": "Every log, warn, and error — captured right below the preview." },
+    { "icon": "📚", "title": "Full documentation",     "desc": "Guides, Q&A, and changelog built into the app." }
   ],
-  "supported_files": ["html", "css", "js", "json", "py"],
-  "run_delay_ms": 400
+  "supported_files": [
+    { "ext": "html", "color": "#e96c3b", "label": "HTML5" },
+    { "ext": "css",  "color": "#38b8ff", "label": "CSS3" },
+    { "ext": "js",   "color": "#f0db4f", "label": "JavaScript" },
+    { "ext": "json", "color": "#7ee787", "label": "JSON" },
+    { "ext": "py",   "color": "#4ebeff", "label": "Python" }
+  ],
+  "pin": {
+    "length": 10,
+    "setup_delay_min_ms": 10000,
+    "setup_delay_max_ms": 20000,
+    "pin_change_delay_ms": 10000,
+    "export_delay_min_ms": 5000,
+    "export_delay_max_ms": 10000,
+    "import_delay_min_ms": 20000,
+    "import_delay_max_ms": 30000
+  },
+  "docs_sections": [
+    "Mulai Sekarang",
+    "Editor & File",
+    "Akun & PIN",
+    "Settings",
+    "Keamanan & Data",
+    "FAQ",
+    "Changelog"
+  ]
 }
