@@ -1,168 +1,386 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CodeTester V2 — Editor</title>
+  <title>VeaCode 2.0 — Editor</title>
   <link rel="stylesheet" href="style.css"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    body { overflow:hidden; height:100vh; display:flex; flex-direction:column; }
+
+    /* ── EDITOR TOPBAR ── */
+    .etb {
+      position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:200;
+      background:rgba(9,11,20,0.82);
+      backdrop-filter:blur(22px) saturate(200%);
+      -webkit-backdrop-filter:blur(22px) saturate(200%);
+      border-bottom:1px solid var(--e1);
+      display:flex;align-items:center;padding:0 14px;gap:10px;
+    }
+    .etb-brand {
+      display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;
+    }
+    .etb-brand img { width:22px;height:22px;border-radius:5px;object-fit:contain; }
+    .etb-brand-name { font-size:0.84rem;font-weight:700;letter-spacing:-0.02em;color:var(--w1); }
+    .etb-ver { font-size:0.48rem;font-weight:700;background:var(--blue);color:#fff;border-radius:3px;padding:1px 4px; }
+
+    .etb-tabs {
+      flex:1;display:flex;align-items:center;gap:2px;
+      overflow-x:auto;scrollbar-width:none;min-width:0;
+    }
+    .etb-tabs::-webkit-scrollbar { display:none; }
+
+    .ftab {
+      display:flex;align-items:center;gap:6px;
+      padding:5px 11px;
+      background:transparent;border:1px solid transparent;
+      border-radius:var(--r);color:var(--w3);
+      font-family:var(--fm);font-size:0.71rem;font-weight:500;
+      cursor:pointer;transition:all 0.17s var(--ease);
+      white-space:nowrap;flex-shrink:0;
+    }
+    .ftab:hover { background:var(--s1);color:var(--w2);border-color:var(--e1); }
+    .ftab.on    { background:var(--s2);color:var(--w1);border-color:var(--e2); }
+    .ftab-dot   { width:6px;height:6px;border-radius:50%;flex-shrink:0; }
+    .ftab-close {
+      width:13px;height:13px;display:flex;align-items:center;justify-content:center;
+      border-radius:3px;font-size:0.6rem;color:var(--w3);background:none;border:none;
+      cursor:pointer;transition:all 0.13s;padding:0;margin-left:2px;
+    }
+    .ftab-close:hover { background:rgba(255,68,68,0.2);color:var(--red); }
+
+    .add-btn {
+      background:var(--s1);border:1px solid var(--e1);border-radius:var(--r);
+      color:var(--w3);width:25px;height:25px;display:flex;align-items:center;
+      justify-content:center;cursor:pointer;transition:all 0.14s;flex-shrink:0;
+    }
+    .add-btn:hover { background:var(--s2);color:var(--w1);border-color:var(--e2); }
+
+    .etb-right { display:flex;align-items:center;gap:7px;flex-shrink:0; }
+    .hint { font-family:var(--fm);font-size:0.58rem;color:var(--w4);letter-spacing:0.04em; }
+
+    .run-btn {
+      display:flex;align-items:center;gap:6px;
+      background:var(--orange);color:#fff;border:none;
+      border-radius:var(--r);padding:7px 13px;
+      font-family:var(--f);font-size:0.78rem;font-weight:600;
+      cursor:pointer;letter-spacing:0.01em;white-space:nowrap;
+      box-shadow:0 3px 14px var(--orange-glow);
+      transition:all 0.18s var(--ease);
+    }
+    .run-btn:hover { background:var(--orange2);transform:translateY(-1px);box-shadow:0 5px 20px var(--orange-glow); }
+    .run-btn:active { transform:scale(0.97); }
+
+    /* ── LAYOUT ── */
+    .ed-layout {
+      position:fixed;
+      top:var(--nav-h);left:0;right:0;bottom:0;
+      display:flex;flex-direction:row;z-index:1;
+    }
+
+    /* SIDEBAR */
+    .ed-sidebar {
+      width:var(--sidebar-w);flex-shrink:0;
+      display:flex;flex-direction:column;
+      background:rgba(9,11,20,0.55);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-right:1px solid var(--e1);
+    }
+    .sb-label {
+      font-family:var(--fm);font-size:0.58rem;font-weight:600;
+      letter-spacing:0.13em;text-transform:uppercase;
+      color:var(--w4);padding:11px 13px 6px;
+    }
+    .sb-files { flex:1;overflow-y:auto;padding:3px 7px; }
+    .sf {
+      display:flex;align-items:center;gap:7px;
+      padding:6px 8px;border-radius:var(--r);cursor:pointer;
+      font-family:var(--fm);font-size:0.7rem;color:var(--w2);
+      transition:all 0.14s;position:relative;
+    }
+    .sf:hover { background:var(--s2);color:var(--w1); }
+    .sf.on    { background:var(--s2);color:var(--w1); }
+    .sf.on::before {
+      content:'';position:absolute;left:-7px;top:20%;bottom:20%;
+      width:2px;background:var(--blue);border-radius:2px;
+    }
+    .sf-dot  { width:6px;height:6px;border-radius:50%;flex-shrink:0; }
+    .sf-name { flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+    .sf-del  {
+      background:none;border:none;color:transparent;
+      font-size:0.62rem;cursor:pointer;padding:0;transition:color 0.13s;line-height:1;
+    }
+    .sf:hover .sf-del { color:var(--w4); }
+    .sf-del:hover     { color:var(--red) !important; }
+
+    /* EDITOR PANE */
+    .ed-pane {
+      flex:1;min-width:0;display:flex;flex-direction:column;
+      background:rgba(9,11,20,0.65);backdrop-filter:blur(10px);overflow:hidden;
+    }
+    .ed-inner { flex:1;display:flex;overflow:hidden; }
+    .ed-lnum {
+      width:42px;flex-shrink:0;padding:14px 0;
+      background:rgba(0,0,0,0.18);border-right:1px solid var(--e1);
+      overflow:hidden;user-select:none;
+    }
+    .lnum-n {
+      display:block;text-align:right;padding-right:10px;
+      font-family:var(--fm);font-size:0.7rem;line-height:1.65;color:var(--w4);
+    }
+    .ed-ta {
+      flex:1;padding:14px 16px;background:transparent;
+      border:none;outline:none;resize:none;
+      color:var(--w1);font-family:var(--fm);font-size:0.79rem;
+      line-height:1.65;tab-size:2;caret-color:var(--blue);
+      scrollbar-width:thin;scrollbar-color:rgba(79,111,255,0.22) transparent;
+      white-space:pre;overflow:auto;
+    }
+    .ed-ta::selection { background:rgba(79,111,255,0.26); }
+
+    /* H-DIVIDER */
+    .h-div {
+      width:6px;flex-shrink:0;background:var(--e1);cursor:col-resize;
+      display:flex;align-items:center;justify-content:center;
+      transition:background 0.16s;z-index:5;
+    }
+    .h-div:hover { background:rgba(79,111,255,0.38); }
+    .h-div:hover .div-pip { background:var(--blue); }
+    .div-pip { width:3px;height:26px;border-radius:3px;background:var(--w4);transition:background 0.16s; }
+
+    /* OUTPUT */
+    .out-pane {
+      width:44%;min-width:190px;display:flex;flex-direction:column;
+      background:rgba(9,11,20,0.5);overflow:hidden;
+    }
+
+    /* PANE HEADER */
+    .ph {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:5px 11px;border-bottom:1px solid var(--e1);
+      background:rgba(0,0,0,0.24);flex-shrink:0;
+    }
+    .ph-lbl {
+      display:flex;align-items:center;gap:6px;
+      font-family:var(--fm);font-size:0.62rem;font-weight:500;
+      letter-spacing:0.08em;text-transform:uppercase;color:var(--w3);
+    }
+    .ph-acts { display:flex;gap:4px; }
+    .ph-btn {
+      background:var(--s1);border:1px solid var(--e1);border-radius:5px;
+      color:var(--w3);width:24px;height:24px;display:flex;align-items:center;
+      justify-content:center;cursor:pointer;transition:all 0.14s;
+    }
+    .ph-btn:hover { background:var(--s2);color:var(--w1);border-color:var(--e2); }
+
+    /* STATUS DOT */
+    .sdot-st { width:6px;height:6px;border-radius:50%;background:var(--w4);transition:all 0.28s;flex-shrink:0; }
+    .sdot-st.ok  { background:var(--green); box-shadow:0 0 6px rgba(24,201,100,0.5); }
+    .sdot-st.err { background:var(--red);   box-shadow:0 0 6px rgba(255,68,68,0.5); }
+    .sdot-st.run { background:var(--yellow);animation:sdPulse 0.65s ease-in-out infinite; }
+    @keyframes sdPulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* LOG BADGE */
+    .log-badge {
+      display:none;background:var(--blue);color:#fff;
+      font-size:0.54rem;font-weight:700;padding:1px 5px;border-radius:100px;
+    }
+    .log-badge.show { display:inline; }
+
+    /* PREVIEW */
+    .prev-pane { flex:1;min-height:110px;display:flex;flex-direction:column;overflow:hidden; }
+    .prev-body { flex:1;position:relative;overflow:hidden; }
+    .prev-empty {
+      position:absolute;inset:0;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:9px;
+      color:var(--w3);font-size:0.78rem;
+    }
+    .pe-icon { font-size:1.6rem;opacity:0.25; }
+    #prevFrame {
+      position:absolute;inset:0;width:100%;height:100%;
+      border:none;background:#fff;opacity:0;transition:opacity 0.28s var(--ease);
+    }
+    #prevFrame.show { opacity:1; }
+
+    /* V-DIVIDER */
+    .v-div {
+      height:5px;flex-shrink:0;background:var(--e1);cursor:row-resize;
+      display:flex;align-items:center;justify-content:center;transition:background 0.16s;
+    }
+    .v-div:hover { background:rgba(79,111,255,0.32); }
+    .v-div .div-pip { width:22px;height:3px; }
+
+    /* CONSOLE */
+    .con-pane {
+      height:var(--console-h);min-height:75px;flex-shrink:0;
+      display:flex;flex-direction:column;overflow:hidden;
+      border-top:1px solid var(--e1);
+    }
+    .con-body {
+      flex:1;overflow-y:auto;padding:7px 11px;
+      font-family:var(--fm);font-size:0.72rem;line-height:1.8;
+    }
+    .con-ph { color:var(--w4); }
+    .cline {
+      display:flex;gap:7px;align-items:flex-start;
+      padding:1px 3px;border-radius:4px;
+      animation:cIn 0.14s var(--ease);
+    }
+    @keyframes cIn { from{opacity:0;transform:translateX(-4px)} to{opacity:1;transform:translateX(0)} }
+    .cline-ic { flex-shrink:0;opacity:0.65;padding-top:1px; }
+    .cline-msg { flex:1;word-break:break-word;white-space:pre-wrap; }
+    .cline.log   { color:var(--w1); }
+    .cline.info  { color:var(--cyan); }
+    .cline.warn  { color:var(--yellow);background:rgba(245,197,66,0.05); }
+    .cline.error { color:var(--red);background:rgba(255,68,68,0.05); }
+
+    /* FULLSCREEN */
+    .prev-pane.fs {
+      position:fixed !important;inset:0 !important;
+      z-index:500 !important;height:100vh !important;flex:none !important;
+    }
+
+    /* RUN FLASH BAR */
+    .flash-bar-wrap { position:fixed;top:var(--nav-h);left:0;right:0;height:2px;z-index:300;pointer-events:none; }
+    .flash-bar { height:100%;width:0%;background:linear-gradient(90deg,var(--orange),var(--orange2));transition:width 0.4s var(--ease);box-shadow:0 0 7px var(--orange-glow); }
+
+    /* ADD FILE MODAL */
+    .ft-chips { display:flex;gap:5px;flex-wrap:wrap; }
+    .ft-chip {
+      padding:5px 11px;background:var(--s2);border:1px solid var(--e2);
+      border-radius:100px;font-family:var(--fm);font-size:0.68rem;
+      color:var(--w2);cursor:pointer;transition:all 0.14s;
+    }
+    .ft-chip:hover { background:var(--s3);color:var(--w1); }
+    .ft-chip.on    { background:var(--blue);border-color:var(--blue);color:#fff; }
+
+    @media(max-width:680px) {
+      .ed-sidebar { display:none; }
+      .out-pane   { width:48%; }
+      .hint       { display:none; }
+    }
+  </style>
 </head>
-<body class="editor-page">
+<body>
+<div class="amb"><div class="amb-orb a1"></div><div class="amb-orb a2"></div></div>
 
-  <!-- ambient -->
-  <div class="ambient">
-    <div class="amb-orb a1"></div>
-    <div class="amb-orb a2"></div>
+<!-- TOPBAR -->
+<header class="etb">
+  <a href="dashboard.html" class="etb-brand">
+    <img src="images/VeaCode.png" alt="" onerror="this.style.display='none'"/>
+    <span class="etb-brand-name">VeaCode</span>
+    <span class="etb-ver">2.0</span>
+  </a>
+  <div class="etb-tabs" id="etbTabs"></div>
+  <button class="add-btn" id="addFileBtn" title="Tambah file">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </button>
+  <div class="etb-right">
+    <span class="hint">Ctrl+Enter</span>
+    <button class="run-btn" id="runBtn">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Run
+    </button>
   </div>
+</header>
 
-  <!-- TOPBAR -->
-  <header class="editor-topbar glass-topbar">
-    <div class="etb-left">
-      <a href="index.html" class="etb-logo" title="Back to home">
-        <img src="images/CodeTester.png" alt="CodeTester" class="etb-logo-img" onerror="this.style.display='none'"/>
-        <span class="etb-logo-text">CodeTester</span>
-        <span class="etb-version">V2</span>
-      </a>
-    </div>
+<!-- LAYOUT -->
+<div class="ed-layout" id="edLayout">
 
-    <div class="etb-center">
-      <div class="file-tabs" id="fileTabs">
-        <!-- tabs rendered by app.js -->
-      </div>
-      <button class="add-file-btn" id="addFileBtn" title="Add file">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      </button>
-    </div>
+  <!-- SIDEBAR -->
+  <aside class="ed-sidebar">
+    <div class="sb-label">Files</div>
+    <div class="sb-files" id="sbFiles"></div>
+  </aside>
 
-    <div class="etb-right">
-      <span class="shortcut-hint">Ctrl+Enter</span>
-      <button class="btn-run-editor" id="btnRun">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Run
-      </button>
-    </div>
-  </header>
-
-  <!-- MAIN LAYOUT -->
-  <div class="editor-layout" id="editorLayout">
-
-    <!-- SIDEBAR: file tree + file content list -->
-    <aside class="editor-sidebar glass-sidebar" id="editorSidebar">
-      <div class="sidebar-section-label">FILES</div>
-      <div class="sidebar-files" id="sidebarFiles">
-        <!-- file list injected by app.js -->
-      </div>
-    </aside>
-
-    <!-- EDITOR PANE -->
-    <div class="editor-pane" id="editorPane">
-      <div class="editor-chrome">
-        <div class="editor-chrome-inner">
-          <div class="line-numbers" id="lineNumbers"></div>
-          <textarea
-            class="code-textarea"
-            id="codeTextarea"
-            spellcheck="false"
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="off"
-            placeholder="// Start typing..."
-          ></textarea>
-        </div>
-      </div>
-    </div>
-
-    <!-- DRAG DIVIDER -->
-    <div class="h-divider" id="hDivider">
-      <div class="divider-pip"></div>
-    </div>
-
-    <!-- PREVIEW + CONSOLE PANE -->
-    <div class="output-pane" id="outputPane">
-
-      <!-- PREVIEW -->
-      <div class="preview-pane" id="previewPane">
-        <div class="pane-header">
-          <div class="pane-label">
-            <div class="status-dot" id="statusDot"></div>
-            Preview
-          </div>
-          <div class="pane-actions">
-            <button class="pane-btn" id="btnRefresh" title="Refresh">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-            </button>
-            <button class="pane-btn" id="btnFullscreen" title="Fullscreen">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-            </button>
-          </div>
-        </div>
-        <div class="preview-body" id="previewBody">
-          <div class="preview-empty" id="previewEmpty">
-            <div class="pe-icon">▶</div>
-            <p>Press <kbd>Run</kbd> to preview</p>
-          </div>
-          <iframe
-            id="previewFrame"
-            sandbox="allow-scripts allow-modals allow-forms"
-            title="Preview"
-          ></iframe>
-        </div>
-      </div>
-
-      <!-- CONSOLE/PANE DIVIDER -->
-      <div class="v-divider" id="vDivider">
-        <div class="divider-pip"></div>
-      </div>
-
-      <!-- CONSOLE -->
-      <div class="console-pane" id="consolePane">
-        <div class="pane-header">
-          <div class="pane-label">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-            Console
-            <span class="log-badge" id="logBadge"></span>
-          </div>
-          <button class="pane-btn" id="btnClearConsole">Clear</button>
-        </div>
-        <div class="console-body" id="consoleBody">
-          <div class="console-placeholder">// output appears here</div>
-        </div>
-      </div>
-
-    </div><!-- /output-pane -->
-  </div><!-- /editor-layout -->
-
-  <!-- ADD FILE MODAL -->
-  <div class="modal-overlay" id="addFileModal">
-    <div class="modal glass-card">
-      <div class="modal-header">
-        <span class="modal-title">Add New File</span>
-        <button class="modal-close" id="closeModal">✕</button>
-      </div>
-      <div class="modal-body">
-        <label class="modal-label">Filename</label>
-        <input class="modal-input" id="newFileName" placeholder="e.g. data.json" autocomplete="off"/>
-        <div class="file-type-grid" id="fileTypeGrid">
-          <div class="ft-chip active" data-ext="html">HTML</div>
-          <div class="ft-chip" data-ext="css">CSS</div>
-          <div class="ft-chip" data-ext="js">JS</div>
-          <div class="ft-chip" data-ext="json">JSON</div>
-          <div class="ft-chip" data-ext="py">Python</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-ghost-sm" id="cancelModal">Cancel</button>
-        <button class="btn-primary-sm" id="confirmAddFile">Create File</button>
-      </div>
+  <!-- EDITOR -->
+  <div class="ed-pane" id="edPane">
+    <div class="ed-inner">
+      <div class="ed-lnum" id="edLnum"></div>
+      <textarea class="ed-ta" id="edTa"
+        spellcheck="false" autocomplete="off"
+        autocorrect="off" autocapitalize="off"
+        placeholder="// Mulai nulis..."></textarea>
     </div>
   </div>
 
-  <!-- LOADING FLASH -->
-  <div class="run-flash" id="runFlash">
-    <div class="flash-bar" id="flashBar"></div>
-  </div>
+  <!-- H DIVIDER -->
+  <div class="h-div" id="hDiv"><div class="div-pip"></div></div>
 
-  <script src="app.js"></script>
+  <!-- OUTPUT -->
+  <div class="out-pane" id="outPane">
+    <div class="prev-pane" id="prevPane">
+      <div class="ph">
+        <div class="ph-lbl">
+          <div class="sdot-st" id="sdotSt"></div>
+          Preview
+        </div>
+        <div class="ph-acts">
+          <button class="ph-btn" id="btnRefresh" title="Refresh">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          </button>
+          <button class="ph-btn" id="btnFs" title="Fullscreen">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="prev-body" id="prevBody">
+        <div class="prev-empty" id="prevEmpty"><div class="pe-icon">▶</div><p>Klik <strong>Run</strong> untuk preview</p></div>
+        <iframe id="prevFrame" sandbox="allow-scripts allow-modals allow-forms" title="Preview"></iframe>
+      </div>
+    </div>
+
+    <div class="v-div" id="vDiv"><div class="div-pip"></div></div>
+
+    <div class="con-pane" id="conPane">
+      <div class="ph">
+        <div class="ph-lbl">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          Console
+          <span class="log-badge" id="logBadge"></span>
+        </div>
+        <button class="ph-btn" id="btnClearCon" style="font-size:0.65rem;width:auto;padding:0 8px;font-family:var(--f)">Clear</button>
+      </div>
+      <div class="con-body" id="conBody"><div class="con-ph">// output muncul di sini</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- FLASH BAR -->
+<div class="flash-bar-wrap"><div class="flash-bar" id="flashBar"></div></div>
+
+<!-- ADD FILE MODAL -->
+<div class="v-overlay" id="addModal">
+  <div class="v-modal glass">
+    <div class="vm-head">
+      <span class="vm-title">Tambah File Baru</span>
+      <button class="vm-close" id="closeModal">✕</button>
+    </div>
+    <div class="vm-body" style="display:flex;flex-direction:column;gap:12px">
+      <div class="v-field">
+        <label class="v-label">Nama file</label>
+        <input class="v-input" id="newFileName" placeholder="cth: data.json" autocomplete="off"/>
+      </div>
+      <div class="v-field">
+        <label class="v-label">Tipe</label>
+        <div class="ft-chips" id="ftChips">
+          <div class="ft-chip on" data-e="html">HTML</div>
+          <div class="ft-chip" data-e="css">CSS</div>
+          <div class="ft-chip" data-e="js">JS</div>
+          <div class="ft-chip" data-e="json">JSON</div>
+          <div class="ft-chip" data-e="py">Python</div>
+        </div>
+      </div>
+    </div>
+    <div class="vm-foot">
+      <button class="btn btn-ghost btn-sm" id="cancelModal">Batal</button>
+      <button class="btn btn-blue btn-sm" id="confirmModal">Buat</button>
+    </div>
+  </div>
+</div>
+
+<div id="veaToasts" class="v-toasts"></div>
+<script src="app.js"></script>
 </body>
 </html>
