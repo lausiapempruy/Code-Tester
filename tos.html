@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VeaCode 2.0 — Terms of Service</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { min-height:100vh; }
+    .tos-wrap {
+      position:relative;z-index:1;
+      max-width:780px;margin:0 auto;
+      padding:calc(var(--nav-h)+44px) 24px 80px;
+    }
+    .tos-header { margin-bottom:40px; }
+    .tos-kicker {
+      font-family:var(--fm);font-size:0.66rem;font-weight:500;
+      letter-spacing:0.14em;text-transform:uppercase;color:var(--blue3);margin-bottom:10px;
+    }
+    .tos-title { font-size:2.2rem;font-weight:700;letter-spacing:-0.03em;color:var(--w1);margin-bottom:10px; }
+    .tos-meta  { font-size:0.78rem;color:var(--w3);line-height:1.6; }
+    .tos-meta strong { color:var(--w2); }
+
+    .tos-toc {
+      background:var(--s1);border:1px solid var(--e2);border-radius:var(--r2);
+      padding:18px 22px;margin-bottom:40px;
+    }
+    .tos-toc-title { font-size:0.8rem;font-weight:600;color:var(--w1);margin-bottom:12px; }
+    .tos-toc-list { display:flex;flex-direction:column;gap:5px; }
+    .tos-toc-item {
+      font-size:0.78rem;color:var(--blue2);text-decoration:none;
+      padding:3px 0;transition:color 0.14s;
+      display:flex;align-items:center;gap:8px;
+    }
+    .tos-toc-item:hover { color:var(--blue3); }
+    .tos-toc-num { font-family:var(--fm);font-size:0.65rem;color:var(--w4);width:18px;flex-shrink:0; }
+
+    .tos-body { display:flex;flex-direction:column;gap:36px; }
+    .tos-section {}
+    .tos-section-num {
+      font-family:var(--fm);font-size:0.64rem;letter-spacing:0.1em;
+      text-transform:uppercase;color:var(--blue3);margin-bottom:6px;
+    }
+    .tos-section-title {
+      font-size:1.15rem;font-weight:700;letter-spacing:-0.02em;
+      color:var(--w1);margin-bottom:14px;
+      padding-bottom:10px;border-bottom:1px solid var(--e1);
+    }
+    .tos-text {
+      font-size:0.85rem;color:var(--w2);line-height:1.82;
+    }
+    .tos-text p { margin-bottom:10px; }
+    .tos-text p:last-child { margin-bottom:0; }
+    .tos-text ul,
+    .tos-text ol { padding-left:20px;margin:10px 0; }
+    .tos-text li { margin-bottom:6px; }
+    .tos-text strong { color:var(--w1); }
+    .tos-text a { color:var(--blue2);text-decoration:none; }
+    .tos-text a:hover { text-decoration:underline; }
+    .tos-text .highlight {
+      background:var(--blue-dim);border:1px solid rgba(79,111,255,0.18);
+      border-radius:var(--r);padding:12px 14px;margin:12px 0;
+      color:var(--w1);font-size:0.82rem;
+    }
+    .tos-text .warn {
+      background:rgba(245,197,66,0.07);border:1px solid rgba(245,197,66,0.18);
+      border-radius:var(--r);padding:12px 14px;margin:12px 0;
+      color:#d4a218;font-size:0.82rem;line-height:1.65;
+    }
+
+    .tos-footer-box {
+      background:var(--s1);border:1px solid var(--e2);border-radius:var(--r2);
+      padding:22px 24px;margin-top:48px;text-align:center;
+    }
+    .tos-footer-box p { font-size:0.82rem;color:var(--w2);line-height:1.7; }
+    .tos-updated { font-family:var(--fm);font-size:0.65rem;color:var(--w4);margin-top:8px; }
+  </style>
+</head>
+<body>
+<div class="amb"><div class="amb-orb a1"></div><div class="amb-orb a2"></div><div class="amb-grid"></div></div>
+<nav class="v-nav">
+  <a href="index.html" class="v-nav-brand">
+    <img src="images/VeaCode.png" alt="" onerror="this.style.display='none'"/>
+    <span class="v-nav-brand-name">VeaCode</span>
+    <span class="v-nav-brand-badge">2.0</span>
+  </a>
+  <div class="v-nav-links">
+    <a href="index.html" class="v-nav-link">Home</a>
+    <a href="docs.html"  class="v-nav-link">Docs</a>
+    <a href="tos.html"   class="v-nav-link cur">Terms</a>
+  </div>
+  <div class="v-nav-end">
+    <a href="login.html" class="btn btn-ghost btn-sm" id="navAuthBtn">Sign in</a>
+  </div>
+</nav>
+
+<div class="tos-wrap">
+  <div class="tos-header">
+    <p class="tos-kicker">Legal</p>
+    <h1 class="tos-title">Terms of Service</h1>
+    <p class="tos-meta">
+      <strong>VeaCode 2.0</strong> · Berlaku sejak: <strong>11 Juni 2026</strong><br/>
+      Dengan membuat akun atau menggunakan VeaCode 2.0, kamu menyetujui seluruh ketentuan berikut.
+    </p>
+  </div>
+
+  <!-- TOC -->
+  <div class="tos-toc">
+    <p class="tos-toc-title">Daftar Isi</p>
+    <div class="tos-toc-list">
+      <a href="#s1" class="tos-toc-item"><span class="tos-toc-num">01</span>Penerimaan Ketentuan</a>
+      <a href="#s2" class="tos-toc-item"><span class="tos-toc-num">02</span>Deskripsi Layanan</a>
+      <a href="#s3" class="tos-toc-item"><span class="tos-toc-num">03</span>Akun Pengguna</a>
+      <a href="#s4" class="tos-toc-item"><span class="tos-toc-num">04</span>Username & Display Name</a>
+      <a href="#s5" class="tos-toc-item"><span class="tos-toc-num">05</span>PIN & Keamanan</a>
+      <a href="#s6" class="tos-toc-item"><span class="tos-toc-num">06</span>Proyek & Kode</a>
+      <a href="#s7" class="tos-toc-item"><span class="tos-toc-num">07</span>Penyimpanan Data Lokal</a>
+      <a href="#s8" class="tos-toc-item"><span class="tos-toc-num">08</span>Privasi & Tidak Ada Backend</a>
+      <a href="#s9" class="tos-toc-item"><span class="tos-toc-num">09</span>Ekspor & Impor Data</a>
+      <a href="#s10" class="tos-toc-item"><span class="tos-toc-num">10</span>Penggunaan yang Dilarang</a>
+      <a href="#s11" class="tos-toc-item"><span class="tos-toc-num">11</span>Keterbatasan Layanan</a>
+      <a href="#s12" class="tos-toc-item"><span class="tos-toc-num">12</span>Penolakan Garansi</a>
+      <a href="#s13" class="tos-toc-item"><span class="tos-toc-num">13</span>Perubahan Ketentuan</a>
+      <a href="#s14" class="tos-toc-item"><span class="tos-toc-num">14</span>Kontak</a>
+    </div>
+  </div>
+
+  <div class="tos-body">
+
+    <div class="tos-section" id="s1">
+      <p class="tos-section-num">Pasal 01</p>
+      <h2 class="tos-section-title">Penerimaan Ketentuan</h2>
+      <div class="tos-text">
+        <p>Dengan mengakses, mendaftar, atau menggunakan VeaCode 2.0 ("Layanan"), kamu ("Pengguna") menyatakan telah membaca, memahami, dan menyetujui untuk terikat oleh Ketentuan Layanan ini ("ToS").</p>
+        <p>Jika kamu tidak menyetujui ketentuan ini, kamu tidak diizinkan untuk membuat akun VeaCode 2.0. Penggunaan editor tanpa akun tetap diperbolehkan dan tidak memerlukan persetujuan ToS secara eksplisit.</p>
+        <div class="highlight">Dengan mencentang "Saya menyetujui Terms of Service VeaCode 2.0" saat pendaftaran, kamu secara elektronik menyetujui seluruh ketentuan yang tercantum dalam dokumen ini.</div>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s2">
+      <p class="tos-section-num">Pasal 02</p>
+      <h2 class="tos-section-title">Deskripsi Layanan</h2>
+      <div class="tos-text">
+        <p>VeaCode 2.0 adalah sebuah code playground berbasis browser yang berjalan sepenuhnya secara lokal di perangkat pengguna. Layanan ini menyediakan:</p>
+        <ul>
+          <li>Editor kode multi-file yang mendukung HTML, CSS, JavaScript, JSON, dan Python (preview statis)</li>
+          <li>Preview real-time melalui iframe sandbox</li>
+          <li>Panel console untuk menangkap output JavaScript</li>
+          <li>Sistem akun lokal berbasis localStorage dengan autentikasi PIN</li>
+          <li>Dashboard pengguna, Settings akun, dan dokumentasi terintegrasi</li>
+        </ul>
+        <p>VeaCode 2.0 <strong>tidak memiliki backend server</strong>, tidak menyimpan data di cloud, dan tidak menyediakan fitur kolaborasi real-time antar pengguna.</p>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s3">
+      <p class="tos-section-num">Pasal 03</p>
+      <h2 class="tos-section-title">Akun Pengguna</h2>
+      <div class="tos-text">
+        <p>Akun VeaCode 2.0 bersifat <strong>device-bound</strong> — terikat pada satu perangkat dan browser tempat akun dibuat. Tidak ada mekanisme sinkronisasi lintas perangkat.</p>
+        <div class="warn">⚠ Akun VeaCode tidak bisa digunakan di beberapa perangkat secara bersamaan. Kami mohon maaf atas ketidaknyamanan ini.</div>
+        <p>Pengguna bertanggung jawab sepenuhnya atas:</p>
+        <ul>
+          <li>Keamanan perangkat yang digunakan untuk mengakses akun</li>
+          <li>Menjaga kerahasiaan PIN akun</li>
+          <li>Seluruh aktivitas yang dilakukan melalui akun mereka</li>
+          <li>Membuat backup data secara mandiri melalui fitur Ekspor Data</li>
+        </ul>
+        <p>VeaCode tidak bertanggung jawab atas kehilangan akses akibat lupa PIN, kerusakan perangkat, atau penghapusan data browser.</p>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s4">
+      <p class="tos-section-num">Pasal 04</p>
+      <h2 class="tos-section-title">Username & Display Name</h2>
+      <div class="tos-text">
+        <p><strong>Username</strong> adalah identitas unik akun di perangkat tersebut. Ketentuan username:</p>
+        <ul>
+          <li>Hanya boleh mengandung huruf (a–z, A–Z), angka (0–9), dan underscore (_)</li>
+          <li>Tidak boleh mengandung spasi, simbol khusus, atau karakter unicode</li>
+          <li>Minimal 3 karakter, maksimal 32 karakter</li>
+          <li>Username yang sudah digunakan tidak dapat digunakan ulang di perangkat yang sama</li>
+          <li>Penggantian username memerlukan verifikasi PIN</li>
+        </ul>
+        <p><strong>Display Name</strong> adalah nama yang ditampilkan di antarmuka. Ketentuan display name:</p>
+        <ul>
+          <li>Bersifat opsional — jika tidak diisi, display name akan mengikuti username</li>
+          <li>Boleh berisi spasi dan karakter umum</li>
+          <li>Maksimal 64 karakter</li>
+          <li>Dapat diubah kapan saja tanpa verifikasi PIN</li>
+        </ul>
+        <p>Pengguna dilarang menggunakan username atau display name yang:</p>
+        <ul>
+          <li>Mengandung kata-kata kasar, melecehkan, atau menyinggung pihak lain</li>
+          <li>Menyamar sebagai tokoh publik, brand, atau entitas lain</li>
+          <li>Mengandung informasi pribadi orang lain tanpa izin</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s5">
+      <p class="tos-section-num">Pasal 05</p>
+      <h2 class="tos-section-title">PIN & Keamanan</h2>
+      <div class="tos-text">
+        <p>PIN VeaCode 2.0 adalah kode numerik 10 digit yang berfungsi sebagai satu-satunya mekanisme autentikasi akun.</p>
+        <div class="warn">⚠ PIN tidak dapat dipulihkan jika hilang atau lupa. VeaCode tidak menyimpan PIN dalam bentuk apapun yang memungkinkan pemulihan. Simpan PIN kamu di tempat yang aman.</div>
+        <p>Ketentuan PIN:</p>
+        <ul>
+          <li>PIN wajib terdiri dari tepat 10 digit angka</li>
+          <li>PIN disimpan dalam bentuk hash SHA-256 — PIN asli tidak pernah tersimpan dalam plaintext</li>
+          <li>PIN diperlukan untuk: login, ganti username, ganti PIN, dan verifikasi tertentu di Settings</li>
+          <li>Penggantian PIN memerlukan PIN lama sebagai verifikasi dan membutuhkan waktu sekitar 10 detik untuk diproses</li>
+          <li>Setelah ganti PIN, pengguna akan diminta login ulang</li>
+        </ul>
+        <p>Pengguna dilarang:</p>
+        <ul>
+          <li>Mencoba melakukan brute-force terhadap PIN akun sendiri atau orang lain</li>
+          <li>Memanipulasi localStorage secara langsung untuk membypass autentikasi PIN</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s6">
+      <p class="tos-section-num">Pasal 06</p>
+      <h2 class="tos-section-title">Proyek & Kode</h2>
+      <div class="tos-text">
+        <p>Seluruh kode yang ditulis di editor VeaCode 2.0 adalah <strong>milik pengguna sepenuhnya</strong>. VeaCode tidak mengklaim hak apapun atas konten kode yang dibuat.</p>
+        <p>Pengguna bertanggung jawab penuh atas kode yang mereka tulis. Pengguna dilarang menggunakan editor VeaCode untuk:</p>
+        <ul>
+          <li>Menulis atau menguji malware, virus, ransomware, atau kode berbahaya lainnya</li>
+          <li>Membuat konten yang melanggar hukum yang berlaku</li>
+          <li>Menguji teknik serangan siber terhadap sistem pihak ketiga</li>
+          <li>Menghasilkan konten yang menyebarkan kebencian, diskriminasi, atau kekerasan</li>
+          <li>Melanggar hak kekayaan intelektual pihak lain</li>
+        </ul>
+        <p>Fitur Code Projects (penyimpanan proyek permanen) saat ini belum tersedia dan akan hadir di pembaruan berikutnya.</p>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s7">
+      <p class="tos-section-num">Pasal 07</p>
+      <h2 class="tos-section-title">Penyimpanan Data Lokal</h2>
+      <div class="tos-text">
+        <p>VeaCode 2.0 menggunakan <strong>localStorage</strong> browser sebagai satu-satunya media penyimpanan. Ini berarti:</p>
+        <ul>
+          <li>Data tersimpan hanya di browser spesifik pada perangkat yang digunakan</li>
+          <li>Membersihkan data browser (clear site data) akan menghapus seluruh data VeaCode termasuk akun</li>
+          <li>Menggunakan mode incognito/private tidak akan mempertahankan data setelah tab ditutup</li>
+          <li>Data tidak dapat diakses dari browser lain meskipun di perangkat yang sama</li>
+        </ul>
+        <p>VeaCode <strong>sangat menyarankan</strong> pengguna untuk secara berkala melakukan ekspor data sebagai backup, terutama sebelum membersihkan data browser.</p>
+        <div class="warn">⚠ VeaCode tidak bertanggung jawab atas kehilangan data akibat penghapusan cache, uninstall browser, reset perangkat, atau sebab teknis lainnya.</div>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s8">
+      <p class="tos-section-num">Pasal 08</p>
+      <h2 class="tos-section-title">Privasi & Tidak Ada Backend</h2>
+      <div class="tos-text">
+        <p>VeaCode 2.0 dirancang dengan prinsip <strong>privacy by design</strong>:</p>
+        <ul>
+          <li>Tidak ada server backend — tidak ada data yang dikirim ke luar perangkat</li>
+          <li>Tidak ada telemetri, analytics, atau tracking penggunaan</li>
+          <li>Tidak ada cookie pihak ketiga</li>
+          <li>Tidak ada iklan</li>
+          <li>Data akun (username, display name, avatar, PIN hash) hanya tersimpan di localStorage perangkat pengguna</li>
+        </ul>
+        <p>Satu-satunya koneksi eksternal yang dilakukan VeaCode adalah:</p>
+        <ul>
+          <li>Memuat font dari Google Fonts API (bisa diblokir jika diperlukan)</li>
+          <li>Memuat library eksternal dari CDN yang kamu tambahkan sendiri di kode HTML</li>
+        </ul>
+        <div class="highlight">VeaCode tidak pernah melihat, membaca, atau mengakses kode yang kamu tulis. Semuanya berjalan murni di browser kamu.</div>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s9">
+      <p class="tos-section-num">Pasal 09</p>
+      <h2 class="tos-section-title">Ekspor & Impor Data</h2>
+      <div class="tos-text">
+        <p>VeaCode menyediakan fitur Ekspor dan Impor data untuk memudahkan backup dan pemindahan data antar sesi.</p>
+        <p><strong>Ekspor Data:</strong></p>
+        <ul>
+          <li>Menghasilkan file JSON berisi seluruh data akun (username, display name, avatar, aktivitas, PIN hash)</li>
+          <li>Proses membutuhkan 5–10 detik</li>
+          <li>File ekspor adalah tanggung jawab pengguna sepenuhnya — simpan di tempat aman</li>
+          <li>PIN tersimpan dalam bentuk hash dan tidak bisa digunakan untuk mengetahui PIN asli</li>
+        </ul>
+        <p><strong>Impor Data:</strong></p>
+        <ul>
+          <li>Memuat data dari file JSON yang sebelumnya diekspor dari VeaCode</li>
+          <li>Proses membutuhkan 20–30 detik untuk validasi dan penerapan</li>
+          <li>Data yang ada akan ditimpa — pastikan sudah melakukan backup sebelum impor</li>
+          <li>VeaCode tidak bertanggung jawab atas kerusakan data akibat impor file yang tidak valid atau rusak</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s10">
+      <p class="tos-section-num">Pasal 10</p>
+      <h2 class="tos-section-title">Penggunaan yang Dilarang</h2>
+      <div class="tos-text">
+        <p>Pengguna dilarang menggunakan VeaCode 2.0 untuk:</p>
+        <ul>
+          <li>Aktivitas ilegal berdasarkan hukum yang berlaku di yurisdiksi pengguna</li>
+          <li>Mengembangkan, menguji, atau mendistribusikan perangkat lunak berbahaya</li>
+          <li>Melakukan reverse engineering terhadap sistem VeaCode itu sendiri dengan tujuan merusak</li>
+          <li>Mengeksploitasi atau mencoba mengeksploitasi kerentanan keamanan</li>
+          <li>Memanipulasi localStorage secara langsung untuk membypass mekanisme keamanan</li>
+          <li>Membuat konten yang melanggar hak cipta atau kekayaan intelektual</li>
+          <li>Menggunakan layanan untuk tujuan yang merugikan pihak ketiga</li>
+        </ul>
+        <p>Pelanggaran terhadap ketentuan ini sepenuhnya menjadi tanggung jawab pengguna.</p>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s11">
+      <p class="tos-section-num">Pasal 11</p>
+      <h2 class="tos-section-title">Keterbatasan Layanan</h2>
+      <div class="tos-text">
+        <p>VeaCode 2.0 memiliki keterbatasan bawaan yang perlu dipahami pengguna:</p>
+        <ul>
+          <li><strong>Single device:</strong> Akun hanya bisa diakses dari satu perangkat dan browser</li>
+          <li><strong>Tidak ada sinkronisasi:</strong> Tidak ada backup otomatis ke cloud</li>
+          <li><strong>Python tidak dieksekusi:</strong> File .py hanya ditampilkan sebagai teks, tidak dijalankan</li>
+          <li><strong>Tidak ada save permanen untuk kode:</strong> Fitur Code Projects belum tersedia di v2.0</li>
+          <li><strong>Bergantung pada browser:</strong> Fitur backdrop-filter dan localStorage memerlukan browser modern</li>
+          <li><strong>PIN tidak dapat dipulihkan:</strong> Tidak ada mekanisme reset PIN</li>
+        </ul>
+        <p>Fitur-fitur berikut direncanakan untuk rilis berikutnya namun belum tersedia di v2.0:</p>
+        <ul>
+          <li>Code Projects (simpan proyek secara permanen)</li>
+          <li>Template starter</li>
+          <li>Syntax highlighting penuh</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s12">
+      <p class="tos-section-num">Pasal 12</p>
+      <h2 class="tos-section-title">Penolakan Garansi</h2>
+      <div class="tos-text">
+        <p>VeaCode 2.0 disediakan <strong>"sebagaimana adanya"</strong> (as-is) tanpa garansi apapun, baik tersurat maupun tersirat, termasuk namun tidak terbatas pada:</p>
+        <ul>
+          <li>Garansi ketersediaan atau uptime layanan</li>
+          <li>Garansi keamanan data dari kehilangan akibat faktor browser atau perangkat</li>
+          <li>Garansi kebebasan dari bug atau error</li>
+          <li>Garansi kesesuaian untuk tujuan tertentu</li>
+        </ul>
+        <p>VeaCode dan pengembangnya tidak bertanggung jawab atas kehilangan data, kerusakan perangkat, atau kerugian lain yang timbul dari penggunaan layanan ini, sejauh yang diizinkan oleh hukum yang berlaku.</p>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s13">
+      <p class="tos-section-num">Pasal 13</p>
+      <h2 class="tos-section-title">Perubahan Ketentuan</h2>
+      <div class="tos-text">
+        <p>VeaCode berhak memperbarui Terms of Service ini kapan saja. Perubahan akan dicatat dalam Changelog di halaman <a href="docs.html#changelog">Dokumentasi</a>.</p>
+        <p>Dengan terus menggunakan VeaCode 2.0 setelah perubahan ToS diberlakukan, pengguna dianggap menyetujui ketentuan yang diperbarui.</p>
+        <p>Tanggal pembaruan terakhir selalu tercantum di bagian atas halaman Terms of Service ini.</p>
+      </div>
+    </div>
+
+    <div class="tos-section" id="s14">
+      <p class="tos-section-num">Pasal 14</p>
+      <h2 class="tos-section-title">Kontak</h2>
+      <div class="tos-text">
+        <p>Untuk pertanyaan, laporan bug, atau hal lain terkait VeaCode 2.0, silakan buka issue di repositori GitHub proyek ini.</p>
+        <p>VeaCode 2.0 adalah proyek open source yang dikembangkan secara independen.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tos-footer-box glass">
+    <p>Dengan menggunakan VeaCode 2.0, kamu menyetujui Terms of Service ini. Terima kasih sudah menggunakan VeaCode 2.0.</p>
+    <p class="tos-updated">Terakhir diperbarui: 11 Juni 2026 · VeaCode 2.0.0</p>
+  </div>
+</div>
+
+<div id="veaToasts" class="v-toasts"></div>
+<script src="app.js"></script>
+</body>
+</html>
